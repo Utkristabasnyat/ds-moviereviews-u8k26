@@ -4,6 +4,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <ctime>
+#include <vector>
 using namespace std;
 
 struct ReviewNode
@@ -178,23 +179,34 @@ int main()
         return 1;
     }
 
-    Movie movie1;
-    movie1.setTitle("Elephants in the Fog");
+    vector<Movie> movies(5);
+
+    movies[0].setTitle("Elephants in the Fog");
+    movies[1].setTitle("Spider-Man: Brand New Day");
+    movies[2].setTitle("The Wolf of Wall Street");
+    movies[3].setTitle("Steve Jobs");
+    movies[4].setTitle("3 Idiots");
 
     string comment;
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 5; i++)
     {
-        getline(inputFile, comment);
+        for (int j = 0; j < 3; j++)
+        {
+            getline(inputFile, comment);
 
-        double rating = (rand() % 41 + 10) / 10.0;
+            double rating = (rand() % 41 + 10) / 10.0;
 
-        movie1.addReview(rating, comment);
+            movies[i].addReview(rating, comment);
+        }
     }
 
     inputFile.close();
 
-    movie1.outputReviews();
+    for (int i = 0; i < 5; i++)
+    {
+        movies[i].outputReviews();
+    }
 
     return 0;
 }
