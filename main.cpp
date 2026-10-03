@@ -1,6 +1,9 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <fstream>
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 
 struct ReviewNode
@@ -165,33 +168,33 @@ public:
 
 int main()
 {
-    Movie movie1;
+    srand(time(0));
 
+    ifstream inputFile("input.txt");
+
+    if (!inputFile)
+    {
+        cout << "Error opening input.txt" << endl;
+        return 1;
+    }
+
+    Movie movie1;
     movie1.setTitle("Elephants in the Fog");
 
-    movie1.addReview(
-        4.5,
-        "The movie shows how important courage is when facing difficult situations."
-    );
+    string comment;
 
-    movie1.addReview(
-        4.2,
-        "It gives a strong message about hope, perseverance, and continuing even when life becomes uncertain."
-    );
+    for (int i = 0; i < 3; i++)
+    {
+        getline(inputFile, comment);
 
-    Movie movie2;
-    movie2 = movie1;
+        double rating = (rand() % 41 + 10) / 10.0;
 
-    movie2.addReview(
-        4.8,
-        "The story reminds us to stay strong and keep moving forward."
-    );
+        movie1.addReview(rating, comment);
+    }
 
-    cout << "Original Movie" << endl;
+    inputFile.close();
+
     movie1.outputReviews();
-
-    cout << "\nAssigned Movie" << endl;
-    movie2.outputReviews();
 
     return 0;
 }
