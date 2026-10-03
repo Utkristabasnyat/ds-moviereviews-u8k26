@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <string>
 using namespace std;
 
@@ -45,16 +46,31 @@ public:
 
     void outputReviews()
     {
-        cout << "Movie: " << title << endl;
+        cout << "\nMovie: " << title << endl;
 
         ReviewNode *current = head;
+        double total = 0.0;
+        int count = 0;
 
         while (current)
         {
-            cout << "Rating: " << current->rating << endl;
-            cout << "Review: " << current->comment << endl;
+            count++;
 
+            cout << "Review #" << count << endl;
+            cout << "Rating: " << fixed << setprecision(1)
+                 << current->rating << endl;
+            cout << "Comment: " << current->comment << endl;
+
+            total += current->rating;
             current = current->next;
+        }
+
+        if (count > 0)
+        {
+            double average = total / count;
+
+            cout << "Average Rating: " << fixed << setprecision(1)
+                 << average << endl;
         }
     }
 };
