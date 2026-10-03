@@ -23,6 +23,20 @@ public:
         head = nullptr;
     }
 
+    ~Movie()
+    {
+        ReviewNode *current = head;
+
+        while (current)
+        {
+            ReviewNode *temp = current;
+            current = current->next;
+            delete temp;
+        }
+
+        head = nullptr;
+    }
+
     void setTitle(string t)
     {
         title = t;
