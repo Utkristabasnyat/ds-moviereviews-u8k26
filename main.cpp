@@ -23,6 +23,36 @@ public:
         head = nullptr;
     }
 
+    Movie(const Movie &other)
+    {
+        title = other.title;
+        head = nullptr;
+
+        if (other.head)
+        {
+            head = new ReviewNode;
+            head->rating = other.head->rating;
+            head->comment = other.head->comment;
+            head->next = nullptr;
+
+            ReviewNode *source = other.head->next;
+            ReviewNode *current = head;
+
+            while (source)
+            {
+                ReviewNode *newNode = new ReviewNode;
+
+                newNode->rating = source->rating;
+                newNode->comment = source->comment;
+                newNode->next = nullptr;
+
+                current->next = newNode;
+                current = newNode;
+                source = source->next;
+            }
+        }
+    }
+
     ~Movie()
     {
         ReviewNode *current = head;
@@ -105,7 +135,13 @@ int main()
         "It gives a strong message about hope, perseverance, and continuing even when life becomes uncertain."
     );
 
+    Movie movie2 = movie1;
+
+    cout << "Original Movie" << endl;
     movie1.outputReviews();
+
+    cout << "\nCopied Movie" << endl;
+    movie2.outputReviews();
 
     return 0;
 }
