@@ -53,6 +53,50 @@ public:
         }
     }
 
+    Movie &operator=(const Movie &other)
+    {
+        if (this != &other)
+        {
+            ReviewNode *current = head;
+
+            while (current)
+            {
+                ReviewNode *temp = current;
+                current = current->next;
+                delete temp;
+            }
+
+            title = other.title;
+            head = nullptr;
+
+            if (other.head)
+            {
+                head = new ReviewNode;
+                head->rating = other.head->rating;
+                head->comment = other.head->comment;
+                head->next = nullptr;
+
+                ReviewNode *source = other.head->next;
+                current = head;
+
+                while (source)
+                {
+                    ReviewNode *newNode = new ReviewNode;
+
+                    newNode->rating = source->rating;
+                    newNode->comment = source->comment;
+                    newNode->next = nullptr;
+
+                    current->next = newNode;
+                    current = newNode;
+                    source = source->next;
+                }
+            }
+        }
+
+        return *this;
+    }
+
     ~Movie()
     {
         ReviewNode *current = head;
@@ -135,12 +179,18 @@ int main()
         "It gives a strong message about hope, perseverance, and continuing even when life becomes uncertain."
     );
 
-    Movie movie2 = movie1;
+    Movie movie2;
+    movie2 = movie1;
+
+    movie2.addReview(
+        4.8,
+        "The story reminds us to stay strong and keep moving forward."
+    );
 
     cout << "Original Movie" << endl;
     movie1.outputReviews();
 
-    cout << "\nCopied Movie" << endl;
+    cout << "\nAssigned Movie" << endl;
     movie2.outputReviews();
 
     return 0;
